@@ -1,0 +1,10 @@
+const express = require("express");
+const router = express.Router();
+const auth = require("../middleware/auth");
+const { shortenUrl, redirectUrl } = require("../controllers/urlController");
+const { shortenLimiter, redirectLimiter } = require("../middleware/rateLimiter");
+
+router.post("/shorten",auth, shortenLimiter, shortenUrl);
+router.get("/:code", redirectLimiter, redirectUrl);
+
+module.exports = router;
