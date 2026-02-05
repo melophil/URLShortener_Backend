@@ -70,3 +70,15 @@ exports.redirectUrl = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+exports.getMyLinks = async (req, res) => {
+  try {
+    const urls = await Url.find({ userId: req.userId })
+      .sort({ createdAt: -1 })
+      .select("shortCode longUrl clicks createdAt");
+
+    res.json(urls);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
